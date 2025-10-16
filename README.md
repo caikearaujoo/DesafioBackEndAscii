@@ -1,108 +1,117 @@
 🚀 ASCII Back-End Challenge — API de Produtos
 <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png" width="100" align="right"/>
 
-Bem-vindo ao meu projeto desenvolvido para o Processo Seletivo da Ascii Empresa Júnior (UFU)!
-Este desafio consiste em criar uma API REST para gerenciamento de produtos, utilizando Node.js, Express, Prisma e PostgreSQL.
+API REST desenvolvida como parte do desafio técnico da **Ascii**, com foco em boas práticas de arquitetura, uso de ORM, documentação com Swagger e testes automatizados.  
+O projeto implementa um CRUD completo para gerenciamento de produtos.
 
-🧠 Sobre o Projeto
+---
 
-A proposta do desafio é desenvolver uma API RESTful capaz de realizar as principais operações CRUD sobre produtos, aplicando boas práticas de arquitetura, organização em camadas e integração com banco de dados relacional.
+## 🚀 Tecnologias utilizadas
 
-🧩 Funcionalidades
+- **Node.js** + **Express** — para criação da API REST  
+- **Prisma ORM** — para interação com o banco de dados
+- **PostgresSQL** - sgbd utilizado para o banco de dados
+- **Swagger** — para documentação automática das rotas  
+- **Jest** + **Supertest** — para testes automatizados  
+- **ES Modules** — padrão moderno de import/export  
 
-📦 Listar todos os produtos
+---
 
-🔍 Buscar produto por ID
-
-📝 Cadastrar novo produto
-
-✏️ Atualizar produto existente
-
-🗑️ Excluir produto do sistema
-
-🛠️ Tecnologias Utilizadas
-Tecnologia	Descrição
-Node.js	Ambiente de execução JavaScript no servidor
-Express	Framework para construção da API REST
-Prisma ORM	Manipulação do banco de dados com segurança e produtividade
-PostgreSQL	Banco de dados relacional utilizado
-JavaScript (ESM)	Linguagem principal do projeto
-Dotenv	Gerenciamento de variáveis de ambiente
-🧱 Estrutura do Projeto
-ascii-backend/
-├── src/
-│   ├── controllers/      # Controladores das rotas
-│   ├── services/         # Lógica de negócio
-│   ├── dtos/             # DTOs (entrada e saída de dados)
-│   ├── routes/           # Definição das rotas da API
-│   ├── prisma/           # Conexão com o banco via Prisma
-│   └── server.js         # Ponto de entrada do servidor
+## 📦 Estrutura do projeto
+src/
+├── config/
+│ └── swagger.js # Configuração do Swagger
+├── controllers/
+│ └── produtoController.js # Controlador com rotas e documentação Swagger
+├── dto/
+│ └── produtoDTO.js # Data Transfer Objects
+├── models/
+│ └── produto.js # Model usando Prisma
 ├── prisma/
-│   └── schema.prisma     # Modelo de dados
-├── .env                  # Configurações sensíveis (DATABASE_URL)
-├── package.json
-└── README.md
+│ └── schema.prisma # Definição do banco
+└── server.js # Ponto de entrada da aplicação
+tests/
+└── produtoController.test.js # Testes automatizados
 
-🗃️ Modelo do Banco de Dados
-Tabela: Produto
-Campo	Tipo	Descrição
-id	UUID	Identificador único
-nome	String	Nome do produto
-preco	Decimal(10,2)	Preço do produto
-categoria	String	Categoria do produto
-createdAt	DateTime	Data de criação
-updatedAt	DateTime	Atualizado automaticamente
+---
 
-⚙️ Como Rodar o Projeto
-1️⃣ Clonar o repositório
-git clone https://github.com/SEU_USUARIO/ascii-backend.git
-cd ascii-backend
+## ⚙️ Como rodar o projeto localmente
+
+### 1️⃣ Clonar o repositório
+```bash
+git clone https://github.com/seu-usuario/backendascii.git
+cd backendascii
+```
 
 2️⃣ Instalar as dependências
+```bash
 npm install
+```
+3️⃣ Configurar o banco de dados com Prisma
+Crie o arquivo .env na raiz do projeto com a URL de conexão do banco (exemplo usando SQLite):
 
-3️⃣ Configurar o banco de dados
+```bash
+DATABASE_URL="file:./dev.db"
+```
 
-Crie um arquivo .env na raiz com:
+Em seguida, execute:
 
-DATABASE_URL="postgresql://usuario:senha@localhost:5432/ascii_db?schema=public"
+```bash
+npx prisma migrate dev --name init
+```
 
-4️⃣ Rodar as migrations
-npx prisma migrate dev
+4️⃣ Rodar o servidor
+```bash
+node src/server.js
+```
 
-5️⃣ Iniciar o servidor
-npm run dev
-
-
-Servidor rodando em:
+O servidor estará disponível em:
 👉 http://localhost:3000
 
-🧭 Endpoints da API
-Método	Rota	Descrição
-GET	/api/produtos	Lista todos os produtos
-GET	/api/produtos/:id	Busca produto pelo ID
-POST	/api/produtos	Cria novo produto
-PUT	/api/produtos/:id	Atualiza produto existente
-DELETE	/api/produtos/:id	Remove produto
+📘 Documentação Swagger
 
-🌟 Diferenciais Implementados
+Acesse a documentação interativa da API:
+http://localhost:3000/docs
 
-✅ Arquitetura em camadas (Controller, Service, DTO)
-✅ ORM Prisma para manipulação de dados
-✅ Estrutura limpa e modular
-✅ Banco relacional PostgreSQL
-✅ Uso de variáveis de ambiente
+🧪 Executar os testes
 
-(Em breve: integração com Swagger e testes unitários)
+Para rodar os testes unitários e de integração:
+```bash
+npm test
+```
 
-👨‍💻 Autor
+## 🧪 Endpoints testados
 
-Feito com 💙 por Caike César Mota de Araújo
-🎓 Estudante de Ciência da Computação — UFU
-📧 caikecm.araujo@gmail.com
+Os testes garantem o funcionamento dos principais endpoints da API:
 
-🌐 github.com/caikearaujoo
+- **Criar produto** — `POST /produtos`
+- **Listar produtos** — `GET /produtos`
+- **Buscar por ID** — `GET /produtos/:id`
+- **Atualizar produto** — `PUT /produtos/:id`
+- **Deletar produto** — `DELETE /produtos/:id`
 
-🧾 Licença
+---
 
-Este projeto foi desenvolvido exclusivamente para fins avaliativos do processo seletivo da Ascii Empresa Júnior.
+## 🧠 Conceitos aplicados
+
+- ✅ Boas práticas REST  
+- 🧱 Arquitetura MVC simplificada  
+- 🔄 Separação de responsabilidades  
+- 🧩 Testes automatizados  
+- 📨 Uso de DTOs  
+- 📘 Documentação com Swagger  
+- 🗃️ ORM moderno (Prisma)  
+
+---
+
+## 👨‍💻 Autor
+
+**Caike Araújo**  
+Estudante de Ciência da Computação na UFU | Desenvolvedor Full Stack  
+
+💼 [LinkedIn](https://www.linkedin.com/in/caikearaujoo)  
+📧 **caikecm.araujo@gmail.com**
+
+---
+
+> Projeto desenvolvido como parte do processo seletivo da **Ascii**, demonstrando domínio em backend, organização e boas práticas de desenvolvimento.
