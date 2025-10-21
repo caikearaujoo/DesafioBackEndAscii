@@ -61,36 +61,35 @@ tests/
 
 ---
 
-## ⚙️ Como Rodar o Backend Localmente
+⚙️ Como Rodar o Backend Localmente
+Atenção: O ponto de entrada (server.js) e o .env estão localizados dentro da pasta src/. O processo de setup exige dois terminais rodando em pastas diferentes.
 
-**Atenção:** O ponto de entrada (`server.js`) e o `.env` estão localizados dentro da pasta `src/`.
+1. Clonar o Repositório
 
-### 1. Clonar o Repositório
-git clone [https://github.com/seu-usuario/backendascii.git](https://github.com/seu-usuario/backendascii.git)
+git clone https://github.com/seu-usuario/backendascii.git
 cd backendascii
-
 2. Instalar Dependências
 Rode o npm install a partir da pasta raiz.
 
 npm install
-
 3. Configurar Variáveis de Ambiente
 Crie um arquivo chamado .env dentro da pasta src/. Use o template abaixo:
 
 # src/.env
 
 # Banco de Dados (PostgreSQL)
+# IMPORTANTE: Copie essa URL, você vai precisar dela no passo 4.
 DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public
 
 # Chave da API (gere uma chave segura)
 API_KEY=SUA_CHAVE_DE_API_SECRETA
 
 # API de IA (Hugging Face)
-# Crie um Access Token em: [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
+# Crie um Access Token em: https://huggingface.co/settings/tokens
 HUGGINGFACE_TOKEN=hf_SEU_TOKEN_DO_HUGGING_FACE
 
 # Hospedagem de Imagem (Cloudinary)
-# Pegue as chaves do seu dashboard: [https://cloudinary.com/console](https://cloudinary.com/console)
+# Pegue as chaves do seu dashboard: https://cloudinary.com/console
 CLOUDINARY_CLOUD_NAME=SEU_CLOUD_NAME
 CLOUDINARY_API_KEY=SUA_API_KEY_CLOUDINARY
 CLOUDINARY_API_SECRET=SEU_API_SECRET_CLOUDINARY
