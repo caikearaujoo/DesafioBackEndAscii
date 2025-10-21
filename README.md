@@ -1,117 +1,126 @@
-🚀 ASCII Back-End Challenge — API de Produtos
+🚀 ASCII Back-End Challenge — API de Produtos com IA
 <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png" width="100" align="right"/>
 
-API REST desenvolvida como parte do desafio técnico da **Ascii**, com foco em boas práticas de arquitetura, uso de ORM, documentação com Swagger e testes automatizados.  
-O projeto implementa um CRUD completo para gerenciamento de produtos.
+API REST desenvolvida para o desafio técnico da **Ascii**. O projeto implementa um CRUD completo para gerenciamento de produtos e vai além dos requisitos, integrando-se a um **frontend em React (Next.js)** e a um sistema de **geração de imagens por Inteligência Artificial**.
+
+Ao criar ou atualizar um produto, a API dispara um processo assíncrono que gera uma imagem única para o produto usando a API do **Hugging Face** e faz o upload para o **Cloudinary**, atualizando o banco de dados com a URL da imagem.
 
 ---
 
-## 🚀 Tecnologias utilizadas
+## 🌟 Diferenciais (Indo Além do Desafio)
 
-- **Node.js** + **Express** — para criação da API REST  
-- **Prisma ORM** — para interação com o banco de dados
-- **PostgresSQL** - sgbd utilizado para o banco de dados
-- **Swagger** — para documentação automática das rotas  
-- **Jest** + **Supertest** — para testes automatizados  
-- **ES Modules** — padrão moderno de import/export  
+Este projeto implementa todos os requisitos obrigatórios e opcionais, e adiciona os seguintes diferenciais:
+
+-   **✅ Frontend Dedicado:** Uma aplicação completa em Next.js foi desenvolvida para consumir esta API. **[Clique aqui para ver o repositório do Frontend](https://github.com/seu-usuario/frontendascii)**.
+-   **✅ Geração de Imagem com IA:** Integração com a API do Hugging Face (`black-forest-labs/FLUX.1-dev`) para gerar imagens de produtos automaticamente com base no nome e categoria.
+-   **✅ Processamento Assíncrono:** A geração de IA não trava a resposta do usuário. A API responde imediatamente (`201 Created`) e processa a imagem em segundo plano, atualizando o banco de forma assíncrona.
+-   **✅ Hospedagem em Nuvem:** As imagens geradas são salvas na nuvem (Cloudinary) para disponibilidade global.
+-   **✅ Arquitetura em Camadas (MVC + S):** O projeto foi refatorado para incluir uma camada de **Serviço** (`Service`), separando as regras de negócio (como a lógica de IA) do Controller e do Model (`Controller -> Service -> Model`).
 
 ---
 
-## 📦 Estrutura do projeto
+## 🚀 Tecnologias Utilizadas
+
+-   **Node.js** + **Express** — Criação da API REST
+-   **Prisma ORM** — Interação com o banco de dados
+-   **PostgreSQL** — Banco de dados relacional
+-   **Swagger** — Documentação interativa da API
+-   **Jest** + **Supertest** — Testes automatizados da API
+-   **Hugging Face API** — Geração de imagem por IA
+-   **Cloudinary** — Hospedagem de imagens na nuvem
+-   **Axios** — Cliente HTTP para chamadas de API externas
+-   **ES Modules** — Padrão moderno de import/export
+
+---
+
+📦 Estrutura do Projeto
+A estrutura foi atualizada para o padrão Controller -> Service -> Model para máxima separação de responsabilidades, com a lógica de negócio (incluindo a IA) isolada na camada de Serviço.
+
+O .env e o server.js estão localizados dentro da pasta src/.
+
 src/
 ├── config/
-│ └── swagger.js # Configuração do Swagger
+│   └── swagger.js        # Configuração do Swagger
 ├── controllers/
-│ └── produtoController.js # Controlador com rotas e documentação Swagger
+│   └── produtoController.js # Lida com (req, res) e chama o Service
 ├── dto/
-│ └── produtoDTO.js # Data Transfer Objects
+│   └── produtoDTO.js       # Data Transfer Objects (validação)
+├── middleware/
+│   └── apiKeyAuth.js       # Autenticação da API
 ├── models/
-│ └── produto.js # Model usando Prisma
+│   └── produto.js          # Camada de acesso ao banco (Prisma)
 ├── prisma/
-│ └── schema.prisma # Definição do banco
-└── server.js # Ponto de entrada da aplicação
+│   ├── client.js         # Cliente Prisma
+│   └── schema.prisma     # Schema do banco (na raiz do projeto)
+├── services/
+│   └── produtoService.js   # Regras de negócio (ex: lógica de IA)
+├── .env                  # Arquivo de variáveis de ambiente (DENTRO DE SRC)
+└── server.js             # Ponto de entrada da aplicação
 tests/
-└── produtoController.test.js # Testes automatizados
+└── produtoController.test.js # Testes de integração
 
 ---
 
-## ⚙️ Como rodar o projeto localmente
+## ⚙️ Como Rodar o Backend Localmente
 
-### 1️⃣ Clonar o repositório
-```bash
-git clone https://github.com/seu-usuario/backendascii.git
+**Atenção:** O ponto de entrada (`server.js`) e o `.env` estão localizados dentro da pasta `src/`.
+
+### 1. Clonar o Repositório
+git clone [https://github.com/seu-usuario/backendascii.git](https://github.com/seu-usuario/backendascii.git)
 cd backendascii
-```
 
-2️⃣ Instalar as dependências
-```bash
+2. Instalar Dependências
+Rode o npm install a partir da pasta raiz.
+
 npm install
-```
-3️⃣ Configurar o banco de dados com Prisma
-Crie o arquivo .env na raiz do projeto com a URL de conexão do banco (exemplo usando SQLite):
 
-```bash
-DATABASE_URL="file:./dev.db"
-```
+3. Configurar Variáveis de Ambiente
+Crie um arquivo chamado .env dentro da pasta src/. Use o template abaixo:
 
-Em seguida, execute:
+# src/.env
 
-```bash
-npx prisma migrate dev --name init
-```
+# Banco de Dados (PostgreSQL)
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public
 
-4️⃣ Rodar o servidor
-```bash
-node src/server.js
-```
+# Chave da API (gere uma chave segura)
+API_KEY=SUA_CHAVE_DE_API_SECRETA
 
-O servidor estará disponível em:
-👉 http://localhost:3000
+# API de IA (Hugging Face)
+# Crie um Access Token em: [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
+HUGGINGFACE_TOKEN=hf_SEU_TOKEN_DO_HUGGING_FACE
+
+# Hospedagem de Imagem (Cloudinary)
+# Pegue as chaves do seu dashboard: [https://cloudinary.com/console](https://cloudinary.com/console)
+CLOUDINARY_CLOUD_NAME=SEU_CLOUD_NAME
+CLOUDINARY_API_KEY=SUA_API_KEY_CLOUDINARY
+CLOUDINARY_API_SECRET=SEU_API_SECRET_CLOUDINARY
+
+4. Rodar as Migrações do Prisma
+Para que o Prisma CLI encontre o .env dentro de src/, execute o comando de migração a partir da pasta raiz (BackEndAscii) usando a flag --env-file:
+
+# Estando na pasta raiz (BackEndAscii)
+node --env-file=src/.env npx prisma migrate dev --name init
+
+5. Rodar o Servidor
+Execute o servidor a partir da pasta raiz, apontando para o server.js em src/ e especificando o caminho do .env:
+
+# Estando na pasta raiz (BackEndAscii)
+node --watch --env-file=src/.env src/server.js
+
+O servidor estará disponível em: 👉 http://localhost:3000
 
 📘 Documentação Swagger
+Com o servidor rodando, acesse a documentação interativa da API: http://localhost:3000/docs
 
-Acesse a documentação interativa da API:
-http://localhost:3000/docs
-
-🧪 Executar os testes
-
-Para rodar os testes unitários e de integração:
-```bash
+🧪 Executar os Testes
+Para rodar os testes unitários e de integração (a partir da pasta raiz):
 npm test
-```
 
-## 🧪 Endpoints testados
+🔗 Frontend
+Não se esqueça de conferir o Repositório do Frontend para ver a API em ação: https://github.com/caikearaujoo/FrontEndAscii
 
-Os testes garantem o funcionamento dos principais endpoints da API:
+👨‍💻 Autor
+Caike Araújo Estudante de Ciência da Computação na UFU | Desenvolvedor Full Stack
 
-- **Criar produto** — `POST /produtos`
-- **Listar produtos** — `GET /produtos`
-- **Buscar por ID** — `GET /produtos/:id`
-- **Atualizar produto** — `PUT /produtos/:id`
-- **Deletar produto** — `DELETE /produtos/:id`
-
----
-
-## 🧠 Conceitos aplicados
-
-- ✅ Boas práticas REST  
-- 🧱 Arquitetura MVC simplificada  
-- 🔄 Separação de responsabilidades  
-- 🧩 Testes automatizados  
-- 📨 Uso de DTOs  
-- 📘 Documentação com Swagger  
-- 🗃️ ORM moderno (Prisma)  
-
----
-
-## 👨‍💻 Autor
-
-**Caike Araújo**  
-Estudante de Ciência da Computação na UFU | Desenvolvedor Full Stack  
-
-💼 [LinkedIn](https://www.linkedin.com/in/caikearaujoo)  
-📧 **caikecm.araujo@gmail.com**
-
----
-
-> Projeto desenvolvido como parte do processo seletivo da **Ascii**, demonstrando domínio em backend, organização e boas práticas de desenvolvimento.
+💼 LinkedIn: https://www.linkedin.com/in/caikearaujoo/
+📧 caikecm.araujo@gmail.com
