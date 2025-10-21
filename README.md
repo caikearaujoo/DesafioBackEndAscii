@@ -95,17 +95,36 @@ CLOUDINARY_CLOUD_NAME=SEU_CLOUD_NAME
 CLOUDINARY_API_KEY=SUA_API_KEY_CLOUDINARY
 CLOUDINARY_API_SECRET=SEU_API_SECRET_CLOUDINARY
 
-4. Rodar as Migrações do Prisma
-Para que o Prisma CLI encontre o .env dentro de src/, execute o comando de migração a partir da pasta raiz (BackEndAscii) usando a flag --env-file:
+4. Rodar a Aplicação (Requer 2 Terminais)
+Para rodar o projeto, você precisará de dois terminais abertos.
 
-# Estando na pasta raiz (BackEndAscii)
-node --env-file=src/.env npx prisma migrate dev --name init
+➡️ Terminal 1: Rodar as Migrações do Banco (Pasta Raiz)
+O Prisma precisa ser executado da pasta-raiz (BackEndAscii) para encontrar o schema.prisma. Como o .env está em src/, vamos injetar a variável do banco manualmente.
 
-5. Rodar o Servidor
-Execute o servidor a partir da pasta raiz, apontando para o server.js em src/ e especificando o caminho do .env:
+Abra o primeiro terminal.
 
-# Estando na pasta raiz (BackEndAscii)
-node --watch --env-file=src/.env src/server.js
+Certifique-se de que você está na pasta raiz (BackEndAscii).
+
+Copie a DATABASE_URL de dentro do seu src/.env.
+
+Execute o comando abaixo, colando a sua URL no lugar indicado:
+
+# Estando na pasta-raiz (BackEndAscii):
+DATABASE_URL="COLE_A_SUA_DATABASE_URL_COMPLETA_AQUI" npx prisma migrate dev --name init
+
+➡️ Terminal 2: Rodar o Servidor (Pasta src/)
+O servidor deve ser executado de dentro da pasta src/, onde o .env e o server.js estão.
+
+Abra um novo terminal.
+
+Entre na pasta src/:
+
+Bash
+
+cd src
+Execute o servidor (este comando vai ler o .env automaticamente):
+
+node --watch --env-file=.env server.js
 
 O servidor estará disponível em: 👉 http://localhost:3000
 
