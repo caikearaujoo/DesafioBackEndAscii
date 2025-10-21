@@ -11,7 +11,7 @@ cloudinary.config({
 
 // Configuração da IA do Hugging Face
 const IA_API_URL =
-  "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev";
+  "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell";
 const IA_TOKEN = process.env.HUGGINGFACE_TOKEN;
 
 // Funções Auxiliares de IA
