@@ -1,4 +1,5 @@
-import { ProdutoModel } from "../models/produto.js";
+import { ProdutoService } from "../services/produtoService.js";
+
 import { produtoRequestDTO, produtoResponseDTO } from "../dto/produtoDTO.js";
 
 //O controller recebe as requisicoes HTTP e atua como um intermediário entre as rotas e o model.
@@ -162,7 +163,7 @@ import { produtoRequestDTO, produtoResponseDTO } from "../dto/produtoDTO.js";
 export const ProdutoController = {
   criar: async (req, res) => {
     try {
-      const produto = await ProdutoModel.criar(produtoRequestDTO(req.body));
+      const produto = await ProdutoService.criar(produtoRequestDTO(req.body));
       res.status(201).json(produtoResponseDTO(produto));
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -171,7 +172,7 @@ export const ProdutoController = {
 
   listar: async (req, res) => {
     try {
-      const produtos = await ProdutoModel.listar();
+      const produtos = await ProdutoService.listar();
       res.status(200).json(produtos.map(produtoResponseDTO));
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -180,7 +181,7 @@ export const ProdutoController = {
 
   buscarPorId: async (req, res) => {
     try {
-      const produto = await ProdutoModel.buscarPorId(req.params.id);
+      const produto = await ProdutoService.buscarPorId(req.params.id);
       if (!produto)
         return res.status(404).json({ message: "Produto não encontrado" });
       res.status(200).json(produtoResponseDTO(produto));
@@ -191,7 +192,7 @@ export const ProdutoController = {
 
   atualizar: async (req, res) => {
     try {
-      const produto = await ProdutoModel.atualizar(
+      const produto = await ProdutoService.atualizar(
         req.params.id,
         produtoRequestDTO(req.body)
       );
@@ -203,7 +204,7 @@ export const ProdutoController = {
 
   deletar: async (req, res) => {
     try {
-      await ProdutoModel.deletar(req.params.id);
+      await ProdutoService.deletar(req.params.id);
       res.status(200).json({ message: "Produto deletado com sucesso!" });
     } catch (err) {
       res.status(500).json({ error: err.message });

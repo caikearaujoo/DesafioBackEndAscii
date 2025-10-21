@@ -13,6 +13,7 @@ export function produtoResponseDTO(produto) {
     nome: produto.nome,
     preco: produto.preco,
     categoria: produto.categoria,
+    imagemUrl: produto.imagemUrl,
     createdAt: produto.createdAt,
     updatedAt: produto.updatedAt,
   };

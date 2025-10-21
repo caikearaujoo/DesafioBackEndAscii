@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 import express from "express";
 import { ProdutoController } from "./controllers/produtoController.js";
 import apiKeyAuth from "./middleware/apiKeyAuth.js";
@@ -12,12 +9,13 @@ app.use(
   cors({
     origin: "http://localhost:3001", // endereço frontend
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "x-api-key"], // inclui x-api-key aqui
+    allowedHeaders: ["Content-Type", "x-api-key"],
   })
 );
 
 app.use(express.json());
 
+// Este middleware agora vai encontrar a API_KEY, pois o .env já foi carregado
 app.use("/produtos", apiKeyAuth);
 
 // Rotas
