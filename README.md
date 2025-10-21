@@ -57,13 +57,9 @@ cd backendascii
 2. Instalar Dependências
 Rode o npm install a partir da pasta raiz.
 
-Bash
-
 npm install
 3. Configurar Variáveis de Ambiente
 Crie um arquivo chamado .env dentro da pasta src/. Use o template abaixo:
-
-Ini, TOML
 
 # src/.env
 
@@ -97,8 +93,6 @@ Copie a DATABASE_URL de dentro do seu src/.env.
 
 Execute o comando abaixo, colando a sua URL no lugar indicado:
 
-Bash
-
 # Estando na pasta-raiz (BackEndAscii):
 DATABASE_URL="COLE_A_SUA_DATABASE_URL_COMPLETA_AQUI" npx prisma migrate dev --name init
 ➡️ Terminal 2: Rodar o Servidor (Pasta src/)
@@ -108,12 +102,8 @@ Abra um novo terminal.
 
 Entre na pasta src/:
 
-Bash
-
 cd src
 Execute o servidor (este comando vai ler o .env automaticamente):
-
-Bash
 
 node --watch --env-file=.env server.js
 O servidor estará disponível em: 👉 http://localhost:3000
@@ -123,8 +113,6 @@ Com o servidor rodando, acesse a documentação interativa da API: http://localh
 
 🧪 Executar os Testes
 Para rodar os testes unitários e de integração (a partir da pasta raiz):
-
-Bash
 
 npm test
 🔗 Frontend
