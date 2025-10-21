@@ -18,7 +18,8 @@ model Produto {
   id         String   @id @default(uuid())          // ID único gerado automaticamente
   nome       String                                   // nome do produto
   preco      Decimal  @db.Decimal(10, 2)              // decimal com 2 casas
-  categoria  String                                   
+  categoria  String       
+  imagemUrl String?                            
   createdAt  DateTime @default(now())                 
   updatedAt  DateTime @updatedAt                      // atualiza automaticamente a cada alteração
 }

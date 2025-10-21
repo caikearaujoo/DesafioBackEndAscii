@@ -2,6 +2,10 @@ import request from "supertest";
 import express from "express";
 import { ProdutoController } from "../src/controllers/produtoController.js";
 
+// IMPORTANTE: Importar o cliente Prisma real
+// (Ajuste o caminho se estiver incorreto)
+import prisma from "../src/prisma/client.js";
+
 // Criando um servidor Express isolado para teste
 const app = express();
 app.use(express.json());
@@ -14,6 +18,20 @@ app.delete("/produtos/:id", ProdutoController.deletar);
 
 describe("Testes do ProdutoController", () => {
   let produtoId;
+
+  // Hooks para gerenciar o banco de dados
+  beforeAll(async () => {
+    // Limpa a tabela de produtos ANTES de começar os testes
+    // Isso garante que você sempre comece de um estado limpo
+    await prisma.produto.deleteMany();
+  });
+
+  afterAll(async () => {
+    // Limpa a tabela DEPOIS de todos os testes
+    await prisma.produto.deleteMany();
+    // Desconecta o Prisma
+    await prisma.$disconnect();
+  });
 
   // Testa criação de produto
   it("Deve criar um produto", async () => {
@@ -32,7 +50,9 @@ describe("Testes do ProdutoController", () => {
     const res = await request(app).get("/produtos");
     expect(res.statusCode).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body.length).toBeGreaterThan(0);
+    // Agora podemos garantir que só existe 1 produto
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].id).toBe(produtoId);
   });
 
   // Testa busca por ID
@@ -62,6 +82,7 @@ describe("Testes do ProdutoController", () => {
 
   // Testa busca de produto inexistente
   it("Deve retornar 404 para produto inexistente", async () => {
+    // Este teste agora funciona corretamente, pois o produtoId foi deletado no teste anterior
     const res = await request(app).get(`/produtos/${produtoId}`);
     expect(res.statusCode).toBe(404);
   });
